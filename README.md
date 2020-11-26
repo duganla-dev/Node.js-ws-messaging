@@ -12,6 +12,7 @@ Node.JS ws (websocket) messaging system, Server And Client files
 ```node
 node main.js
 ```
+The `main.js` file is the Node.js server  file.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
