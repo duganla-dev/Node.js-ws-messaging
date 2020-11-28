@@ -3,11 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>WS Messages</title>
-        <meta name="description" content="The HTML5 Herald">
-        <meta name="author" content="">
-        <style type="text/css">
-            .sendbox{display:block;margin:5px}.sendbox input[type=text]{padding:3px;margin:5px;display:block}.sendbox .msg{width:700px}.sendbox button{display:inline-block;background:#494949;color:#fff;border:none;padding:5px 10px}.sendbox button:hover{background:#2d2d2d;color:#d3d3d3}.sendbox p{color:slategray}.sendbox #send-error{display:inline-block;color:red}.messages div{background:#d6d6d6;width:max-content;max-width:60%;padding:2px 5% 2px 2px;margin:5px}.messages b{margin:2px}.messages p{margin:5px 15px}
-        </style>
+        <style type="text/css"> .sendbox{display:block;margin:5px}.sendbox input[type=text]{padding:3px;margin:5px;display:block}.sendbox .msg{width:700px}.sendbox button{display:inline-block;background:#494949;color:#fff;border:none;padding:5px 10px}.sendbox button:hover{background:#2d2d2d;color:#d3d3d3}.sendbox p{color:slategray}.sendbox #send-error{display:inline-block;color:red}.messages div{background:#d6d6d6;width:max-content;max-width:60%;padding:2px 5% 2px 2px;margin:5px}.messages b{margin:2px}.messages p{margin:5px 15px} </style>
     </head>
     <body>
         <h3>Send A Message</h3>
@@ -19,12 +15,7 @@
             <button onclick="">Send Global</button>
             <p id="send-error"></p>
         </div>
-        <div class="messages" id="messages">
-            <div>
-                <b>Name: </b>
-                <p>Content</p>
-            </div>
-        </div>
+        <div class="messages" id="messages"></div>
         <script>
             var sender=document.getElementById('sendMsg_from').value;var user={'id':sender};function addMessage(sender,content,color){if(color===undefined){document.getElementById('messages').innerHTML+=`<div><b>${ sender }</b><p>${ content }</p></div>`}else{document.getElementById('messages').innerHTML+=`<div><b style="color:${color.name }"}>${ sender }</b><p style="color:${color.content }">${ content }</p></div>`}};let socket=new WebSocket('ws://localhost:5069');try{socket.onopen=function(){var payload={'type':'connect'};socket.send(JSON.stringify(payload))}}catch(e){addMessage('CLIENT',e)};socket.onerror=function(data){addMessage('CLIENT','There was an error with your websocket',{'name':'green','content':'red'})};socket.onclose=function(data){var why;if(data.code==1006){why="Can't establish a connection to Websocket"}else if(data.code==1000){why='Websocket connection closeed'}else{why='Unknown'};addMessage('CLIENT',why,{'name':'green','content':'red'})};socket.onmessage=function(data){data=JSON.parse(data.data);console.log(data);if(data.type=='connect'){addMessage('CLIENT',data.message,{'name':'green','content':'black'})};if(data.type=='message'){if(data.status=='error'){addMessage('SERVER',data.message,{'name':'red','content':'black'})}else if(data.status=='receave'){addMessage(data.message.sender,data.message.content)}}};function sendMessage(){var to=document.getElementById('sendMsg_to').value;if(to){payload={'type':'message','user':user,'message':{'status':'send','sender':user.id,'to':to,'content':document.getElementById('sendMsg_msg').value}};socket.send(JSON.stringify(payload))}else{document.getElementById('send-error').innerHTML='To Username Not Set'}};
         </script>
