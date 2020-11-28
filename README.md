@@ -20,7 +20,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## Notes
-> This client code is in the `messages.html` file, in the `<script>`
+> This client code is in the `clientCode.js` file, also in the HTML file in `<script>`
 
 > The style is only for the example
 
